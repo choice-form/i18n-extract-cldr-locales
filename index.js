@@ -1,19 +1,24 @@
 const fs = require('fs')
 
 function run() {
-  const codes = fs.readdirSync('./node_modules/cldr-localenames-modern/main')
+  const codes = getAllCodes()
 
-  codes.map(code => {
-    return transformToLocale(code)
-  }).forEach(locale => {
-    locale.names = codes.reduce((acc, destCode) => {
+  for (let code of codes) {
+    const locale = transformToLocale(code)
+
+    const names = codes.reduce((acc, destCode) => {
       const name = getName(locale, destCode)
       if (name) acc[destCode] = name
       return acc
     }, {})
 
-    fs.writeFileSync(`./locales/${locale.code}.json`, JSON.stringify(locale.names, null, 2))
-  })
+    fs.writeFileSync(`./locales/${locale.code}.json`, JSON.stringify(names, null, 2))
+  }
+}
+
+function getAllCodes() {
+  return fs.readdirSync('./node_modules/cldr-localenames-modern/main')
+    .map(code => code === 'en-US-POSIX' ? 'en-US' : code)
 }
 
 /*
@@ -24,8 +29,6 @@ function run() {
  * }
  */
 function transformToLocale(code) {
-  if (code === 'en-US-POSIX') code = 'en-US'
-
   const locale = {
     code: code,
     splittedCode: code.split('-'),
