@@ -1,6 +1,16 @@
 const fs = require('fs')
+const path = require('path')
+const rimraf = require('rimraf')
+
+// The main function
+run()
 
 function run() {
+  const localesPath = path.resolve(__dirname, 'locales')
+  rimraf.sync(localesPath)
+
+  fs.mkdirSync(localesPath)
+
   const codes = getAllCodes()
 
   for (let code of codes) {
@@ -105,5 +115,3 @@ function readFile(code, type) {
   const content = require(`cldr-localenames-modern/main/${code}/${type}.json`)
   return content['main'][code]
 }
-
-run()

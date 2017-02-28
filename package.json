@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ./index.js"
   },
   "author": "David Chen",
   "license": "ISC",
   "dependencies": {
-    "cldr-localenames-modern": "^30.0.3"
-  }
+    "cldr-localenames-modern": "^30.0.3",
+    "rimraf": "^2.6.1"
+  },
+  "repository": "https://github.com/choice-form/i18n-extract-cldr-locales.git"
 }
